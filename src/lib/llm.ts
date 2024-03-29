@@ -46,7 +46,8 @@ const promptTemplate = `"Please answer the question following these context.
 Question: {question}`;
 // 生成並儲存嵌入式向量
 export async function main(question: string) {
-	const trainingData = await readTrainingData("/public/documents/info.md");
+	const trainingData = await readTrainingData("/documents/info.md");
+	console.log("trainingData", trainingData);
 	const splitter = createSplitter("markdown", {
 		chunkSize: 500,
 		chunkOverlap: 0,
@@ -64,8 +65,6 @@ export async function main(question: string) {
 
 // 讀取訓練數據
 async function readTrainingData(dataPath: string) {
-	const usersPath = path.join(process.cwd(), dataPath);
-
 	const file = await fs.readFile(process.cwd() + dataPath, "utf8");
 	return file;
 }
