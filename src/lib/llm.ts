@@ -65,6 +65,8 @@ export async function main(question: string) {
 // 讀取訓練數據
 function readTrainingData(dataPath: string) {
 	const usersPath = path.join(process.cwd(), dataPath);
+	console.log("usersPath: ", usersPath);
+
 	return fs.readFileSync(usersPath, "utf8");
 }
 // 建立分割器
