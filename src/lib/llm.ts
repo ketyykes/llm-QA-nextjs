@@ -1,5 +1,5 @@
 import path from "path";
-import fs from "fs";
+import { promises as fs } from "fs";
 
 import {
 	GoogleGenerativeAIEmbeddings,
@@ -46,7 +46,7 @@ const promptTemplate = `"Please answer the question following these context.
 Question: {question}`;
 // 生成並儲存嵌入式向量
 export async function main(question: string) {
-	const trainingData = readTrainingData("/public/documents/info.md");
+	const trainingData = await readTrainingData("/public/documents/info.md");
 	const splitter = createSplitter("markdown", {
 		chunkSize: 500,
 		chunkOverlap: 0,
@@ -63,11 +63,11 @@ export async function main(question: string) {
 }
 
 // 讀取訓練數據
-function readTrainingData(dataPath: string) {
+async function readTrainingData(dataPath: string) {
 	const usersPath = path.join(process.cwd(), dataPath);
-	console.log("usersPath: ", usersPath);
 
-	return fs.readFileSync(usersPath, "utf8");
+	const file = await fs.readFile(process.cwd() + dataPath, "utf8");
+	return file;
 }
 // 建立分割器
 function createSplitter(
