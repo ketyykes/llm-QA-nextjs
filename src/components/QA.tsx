@@ -23,11 +23,6 @@ export function QA() {
 		const response = await POSTData(question);
 
 		const result = await remark().use(html).process(response.answer);
-		console.log("response: ", result);
-		console.log("response: ", result.toString());
-		// const mdxSource = await serialize(response.answer);
-		// console.log("mdxSource: ", mdxSource);
-		console.log("result: ", result.toString());
 		if (response) {
 			setLoading(false);
 			setAnswer(result.toString());
