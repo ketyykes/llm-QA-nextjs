@@ -34,6 +34,9 @@ export function QA() {
 			const result = await fetch("/api/llm", {
 				method: "POST",
 				body: JSON.stringify({ question }),
+				next: {
+					revalidate: 0,
+				},
 			});
 			const json = await result.json();
 			console.log("result: ", json);
