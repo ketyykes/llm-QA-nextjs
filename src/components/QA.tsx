@@ -38,7 +38,6 @@ export function QA() {
 				},
 			});
 			const json = await result.json();
-			console.log("result: ", json);
 			return json;
 		} catch (err) {
 			console.log("err:", err);
