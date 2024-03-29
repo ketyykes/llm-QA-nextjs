@@ -65,7 +65,9 @@ export async function main(question: string) {
 
 // 讀取訓練數據
 async function readTrainingData(dataPath: string) {
-	const file = await fs.readFile(process.cwd() + dataPath, "utf8");
+	// const file = await fs.readFile(process.cwd() + dataPath, "utf8");
+
+	const file = fs.readFile(path.resolve("src/app/info.md"), "utf8");
 	return file;
 }
 // 建立分割器
