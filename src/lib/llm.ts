@@ -46,7 +46,7 @@ const promptTemplate = `"Please answer the question following these context.
 Question: {question}`;
 // 生成並儲存嵌入式向量
 export async function main(question: string) {
-	const trainingData = await readTrainingData("/src/app/info.md");
+	const trainingData = await readTrainingData("/src/documents/info.md");
 	const splitter = createSplitter("markdown", {
 		chunkSize: 500,
 		chunkOverlap: 0,
