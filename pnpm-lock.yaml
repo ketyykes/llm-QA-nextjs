@@ -56,6 +56,12 @@ dependencies:
   remark-html:
     specifier: ^16.0.1
     version: 16.0.1
+  remark-parse:
+    specifier: ^11.0.0
+    version: 11.0.0
+  remark-rehype:
+    specifier: ^11.1.0
+    version: 11.1.0
   tailwind-merge:
     specifier: ^2.2.2
     version: 2.2.2
@@ -3790,6 +3796,16 @@ packages:
       unified: 11.0.4
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /remark-rehype@11.1.0:
+    resolution: {integrity: sha512-z3tJrAs2kIs1AqIIy6pzHmAHlF1hWQ+OdY4/hv+Wxe35EhyLKcajL33iUEn3ScxtFox9nUvRufR/Zre8Q08H/g==}
+    dependencies:
+      '@types/hast': 3.0.4
+      '@types/mdast': 4.0.3
+      mdast-util-to-hast: 13.1.0
+      unified: 11.0.4
+      vfile: 6.0.1
     dev: false
 
   /remark-stringify@11.0.0:
