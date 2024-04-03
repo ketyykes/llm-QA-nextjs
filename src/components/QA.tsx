@@ -10,21 +10,26 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { remark } from "remark";
+import remarkParse from "remark-parse";
 import html from "remark-html";
 
 export function QA() {
 	const [question, setQuestion] = useState<string>("");
-	const [answer, setAnswer] = useState<any>(null);
+	const [answer, setAnswer] = useState<string | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setLoading(true);
 		const response = await POSTData(question);
 
-		const result = await remark().use(html).process(response.answer);
+		const result = await remark()
+			.use(remarkParse)
+			.use(html)
+			.process(response.answer);
 		if (response) {
 			setLoading(false);
 			setAnswer(result.toString());
+			setQuestion("");
 		}
 	};
 
@@ -33,9 +38,6 @@ export function QA() {
 			const result = await fetch("/api/llm", {
 				method: "POST",
 				body: JSON.stringify({ question }),
-				next: {
-					revalidate: 0,
-				},
 			});
 			const json = await result.json();
 			return json;
@@ -45,7 +47,7 @@ export function QA() {
 	}
 	return (
 		<form onSubmit={handleSubmit}>
-			<Card className="w-96 max-w-full">
+			<Card className="md:w-96 w-72">
 				<CardHeader className="space-y-1">
 					<h2 className="text-lg font-bold">對於好想工作室有任何問題嗎</h2>
 					<p className="text-sm leading-none text-gray-500">
