@@ -37,20 +37,21 @@ const ModelConfig: GoogleGenerativeAIChatInput = {
 	maxOutputTokens: 30000,
 };
 const promptTemplate = `"Please answer the question following these context.
-:{context}If the question is related to the language of your input, please respond in that language. If you are unable to provide an answer in the relevant language, kindly inform the user to contact us by phone."
+If the question is related to the language of your input, please respond in that language. If you are unable to provide an answer in the relevant language, kindly inform the user to contact us by phone."
 1. Make sure you understand the content of the question clearly.
-2. If the question is related to a specific language, prioritize answering in that language.
+2. If the question is asked in Traditional Chinese, please respond in Traditional Chinese. Otherwise, respond in the language of the question.
 3. If you're unsure how to answer in a specific language or the question is beyond your knowledge scope, politely inform the user, suggesting they contact us by phone for further assistance.
 4. Provide our contact phone number 0921409887, encouraging users to call if needed.
 5. Always remain respectful and patient to ensure the best user experience.
-Question: {question}`;
+Question: {question}
+Context:{context}
+`;
 // 生成並儲存嵌入式向量
 export async function main(question: string) {
 	const trainingData = await fs.readFile(
 		path.resolve("src/app/info.md"),
 		"utf8"
 	);
-	console.log("trainingData", trainingData);
 	const splitter = createSplitter("markdown", {
 		chunkSize: 500,
 		chunkOverlap: 0,
@@ -60,8 +61,8 @@ export async function main(question: string) {
 	const documents = await createDocumentsFromData(splitter, trainingData);
 	const retriever = await createVectorRetriever(documents);
 	const prompt = createPromptTemplate(promptTemplate);
-	const LLM = createLLM(ModelConfig);
-	const chain = await createChain(retriever, prompt, LLM);
+	const model = createModel(ModelConfig);
+	const chain = await createChain(retriever, prompt, model);
 	const result = chain.invoke(question);
 	return result;
 }
@@ -104,7 +105,7 @@ function createPromptTemplate(promptTemplate: string) {
 }
 
 // 建立聊天模型
-function createLLM(GoogleModelConfig: BaseChatModelParams) {
+function createModel(GoogleModelConfig: BaseChatModelParams) {
 	return new ChatGoogleGenerativeAI(GoogleModelConfig);
 }
 
@@ -112,7 +113,7 @@ function createLLM(GoogleModelConfig: BaseChatModelParams) {
 async function createChain(
 	retriever: VectorStoreRetriever<MemoryVectorStore>,
 	prompt: PromptTemplate,
-	LLM: BaseChatModel
+	model: BaseChatModel
 ) {
 	const chain = RunnableSequence.from([
 		{
@@ -120,7 +121,7 @@ async function createChain(
 			question: new RunnablePassthrough(),
 		},
 		prompt,
-		LLM,
+		model,
 		new StringOutputParser(),
 	]);
 
