@@ -37,11 +37,11 @@ const ModelConfig: GoogleGenerativeAIChatInput = {
 	maxOutputTokens: 30000,
 };
 const promptTemplate = `"Please answer the question following these context.
-If the question is related to the language of your input, please respond in that language. If you are unable to provide an answer in the relevant language, kindly inform the user to contact us by phone."
+If the question is related to the language of your input, please respond in that language. If you are unable to provide an answer in the relevant language, kindly inform the user to contact us via private message on the Facebook fan page of '好想工作室'"
 1. Make sure you understand the content of the question clearly.
 2. If the question is asked in Traditional Chinese, please respond in Traditional Chinese. Otherwise, respond in the language of the question.
 3. If you're unsure how to answer in a specific language or the question is beyond your knowledge scope, politely inform the user, suggesting they contact us by phone for further assistance.
-4. Provide our contact phone number 0921409887, encouraging users to call if needed.
+4. Provide our Facebook fan page 'www.facebook.com/GoodideasStudio' and encourage users to send a private message if needed.
 5. Always remain respectful and patient to ensure the best user experience.
 Question: {question}
 Context:{context}

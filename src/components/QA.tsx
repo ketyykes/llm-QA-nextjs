@@ -76,7 +76,7 @@ export function QA() {
 						)}
 					</div>
 					<div className="flex justify-end gap-2">
-						<Button type="submit">Submit</Button>
+						<Button type="submit">送出</Button>
 					</div>
 				</CardContent>
 			</Card>
